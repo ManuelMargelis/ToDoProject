@@ -1,0 +1,3 @@
+number -- learn 500 Greek words -- 2020, 2, 21 -- 2020, 12, 20 -- Master Greek -- 500 -- 15
+number -- make 180 cards for card game -- 2020, 2, 21 -- 2020, 12, 20 -- Make Card game -- 180 -- 15
+complete task -- write script for mtg deck -- 2020, 2, 21 -- 2020, 12, 20 -- Youtube Video -- 0 -- 0
