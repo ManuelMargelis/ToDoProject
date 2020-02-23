@@ -4,7 +4,7 @@ Created on Thu Feb 20 02:02:19 2020
 
 @author: User
 """
-
+from datetime import datetime
 import pickle
 import os
 os.system("clr")
@@ -101,7 +101,9 @@ def AddTask(TaskType,TaskName,TaskDateAdd,TaskDeadline,TaskMainGoal,TaskNumberLe
     if ItsDoubled == 0:
         f = open("TaskTextFile.txt", "a")
         f.write(save)
-        f.close()
+    f.close()
+
+
 
 
 def _print_layout(object):
@@ -127,6 +129,39 @@ def print_customer(nameoftask):
         print("that object doesnt exists lol")
 
 
+
+
+def CheckFirstTimeOfDay():
+    f=open("Dates.txt", "r")
+    contents = f.readlines()
+    for x in contents:
+        lastline = x
+    f.close()
+    #contents == list of variables with \n there
+    #lastline is last line.
+    todaylist = lastline.strip('\n')
+    todaylist = todaylist.split("-")
+    TodayYear = int(todaylist[0])
+    TodayMonth = int(todaylist[1])
+    TodayDay = int(todaylist[2])
+    LastDateActive = datetime(TodayYear, TodayMonth, TodayDay)
+    f.close()
+    if LastDateActive.date() == datetime.today().date():
+        print("youve been here today heres some extra stuff for you")
+        retval = 0
+    else:
+        f=open("Dates.txt", "a")
+        whatwrite = str(datetime.today().date())
+        f.write(whatwrite)
+        f.close()
+        retval = 1
+        print("first time here for the day i will update the files :)")
+    return retval
+
+
+
+
+
 print_customer("write script for mtg deck")
 ReadSaveFile()
 print_customer("learn 500 Greek words")
@@ -135,3 +170,5 @@ ReadSaveFile()
 print_customer("learn 500 Greek words")
 print_customer("nerd")
 print_customer("Do mtrn lab 2 prework")
+#CheckFirstTimeOfDay()
+CheckFirstTimeOfDay()
