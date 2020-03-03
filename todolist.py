@@ -15,7 +15,6 @@ class TaskClass:
   def __init__(self, Type, Task, Deadline, MainGoal, NumberLeft, NumPerDay, Completed):
     self.Type = Type
     self.Task = Task
-    self.DateAdd = DateAdd
     self.Deadline = Deadline
     self.MainGoal = MainGoal
     self.NumberLeft = NumberLeft
@@ -73,9 +72,9 @@ def ReadSaveFile():
 
 
 
-def AddTask(TaskType,TaskName,TaskDateAdd,TaskDeadline,TaskMainGoal,TaskNumberLeft,TaskNumPerDay):
+def AddTask(TaskType,TaskName,TaskDeadline,TaskMainGoal,TaskNumberLeft,TaskNumPerDay,TaskCompleted):
     gap = " -- "
-    save = str(TaskType) + gap + str(TaskName)+ gap +str(TaskDateAdd)+ gap +str(TaskDeadline)+ gap +str(TaskMainGoal)+ gap +str(TaskNumberLeft)+ gap + str(TaskNumPerDay) + "\n"
+    save = str(TaskType) + gap + str(TaskName)+ gap +str(TaskDeadline)+ gap +str(TaskMainGoal)+ gap +str(TaskNumberLeft)+ gap + str(TaskNumPerDay) + gap + str(TaskCompleted)
 
     CheckIfThere = []
     ItsDoubled = 0
@@ -91,16 +90,12 @@ def AddTask(TaskType,TaskName,TaskDateAdd,TaskDeadline,TaskMainGoal,TaskNumberLe
         print("your data is messed up some1 enterd some janky stuff as a task")
 
 
-    print(ItsDoubled)
-    print("read the shit and put all the names in a list heres the list \n")
-    print(CheckIfThere)
-
-
+    #print(ItsDoubled)
+    #print("read the shit and put all the names in a list heres the list \n")
+    #print(CheckIfThere)
     if TaskName in CheckIfThere:
         ItsDoubled = 1
-
-    print(ItsDoubled)
-
+    #print(ItsDoubled)
     if ItsDoubled == 0:
         f = open("TaskTextFile.txt", "a")
         f.write(save)
@@ -115,8 +110,6 @@ def _print_layout(object):
   print(" ")
   print(object.Task)
   print(" ")
-  print(object.DateAdd)
-  print(" ")
   print(object.Deadline)
   print(" ")
   print(object.MainGoal)
@@ -124,6 +117,8 @@ def _print_layout(object):
   print(object.NumberLeft)
   print(" ")
   print(object.NumPerDay)
+  print(" ")
+  print(object.TaskCompleted)
 
 
 def print_customer(nameoftask):
@@ -182,8 +177,8 @@ def CopyLines(LineList):
             AllTasks.append(line[1])
     except:
         print("your data is messed up some1 enterd some janky stuff as a task")
-    print(AllTasks)
-    print(LineList)
+    #print(AllTasks)
+    #print(LineList)
     for x in LineList:
         TaskForDay.append(AllTasks[x])
 
@@ -221,6 +216,30 @@ def PrintTasksForTheDay():
         print(x)
 
 
+def FinishedATask(TheNameOfTheTask):
+    global listOfTasks
+    global TaskDict
+    ReadSaveFile()
+    object = TaskDict[TheNameOfTheTask]
+    object.TaskCompleted = 1
+    #_print_layout(object)
+    with open("TaskTextFile.txt", "r") as f:
+        lines = f.readlines()
+    with open("TaskTextFile.txt", "w") as f:
+        for line in lines:
+            x = line.split(" -- ")
+            if x[1] != TheNameOfTheTask:
+                f.write(line)
+
+    f = open("TaskTextFile.txt", "a")
+    f.write("\n")
+    f.close()
+
+    AddTask(object.Type,TheNameOfTheTask,object.Deadline,object.MainGoal,object.NumberLeft,object.NumPerDay,1)
+
+    #_print_layout(object)
+    ReadSaveFile()
+
 
 
 
@@ -234,6 +253,31 @@ def PrintTasksForTheDay():
 #print_customer("nerd")
 #print_customer("Do mtrn lab 2 prework")
 #CheckFirstTimeOfDay()
-CheckFirstTimeOfDay()
-DefineDailyTasks(2)
-PrintTasksForTheDay()
+i = CheckFirstTimeOfDay()
+if i == 1:
+    DefineDailyTasks(2)
+else:
+    choice = input("what would you like to do ? \n1) complete a task ? \n2)Look at the tasks for today again \n3)Add a task \n")
+    print(choice)
+    choice = int(choice)
+    print(choice)
+    if choice == 1:
+        addingtask = input("what is the name of the task? \n")
+        addingtask = str(addingtask)
+        FinishedATask(addingtask)
+    elif choice == 2:
+        PrintTasksForTheDay()
+    elif choice == 3:
+        print("add your own task nerd lol nah ceebs doing this")
+    else:
+        print("chose a real number you nob head")
+
+
+
+
+
+
+    #NumberInp = input("how many tasks n")
+    #NumberInp = int(NumberInp)
+    #DefineDailyTasks(NumberInp)
+    #PrintTasksForTheDay()
